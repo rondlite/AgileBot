@@ -2,7 +2,7 @@
     "discord":
     {
         "bot_token": "%BOT_TOKEN%",
-        "command_prefix": "agilebot",
+        "command_prefix": "!",
         "arg_seperator_char": " ",
         "case_sensitive_commands": false,
         "log_not_found": false,
