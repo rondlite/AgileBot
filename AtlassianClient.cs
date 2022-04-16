@@ -19,7 +19,7 @@ namespace AgileBot
     public static class JiraStatus
     {
         public const string ToDo = "To Do";
-        public const string OpenBug = "Open Bug";
+        public const string OpenBug = "Open";
         public const string InProgress = "In Progress";
         public const string InReview = "In Review";
         public const string Done = "Done";
