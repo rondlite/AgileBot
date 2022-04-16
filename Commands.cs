@@ -97,7 +97,7 @@ namespace AgileBot
             await ctx.Channel.TriggerTypingAsync();
             if(parameters.User == null)
             {
-               parameters.User = ctx.Message.Author.Name;
+               parameters.User = ctx.GuildUser.DisplayName;
             }
             if(parameters.Status == null)
             {
