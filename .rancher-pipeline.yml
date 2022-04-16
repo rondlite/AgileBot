@@ -1,0 +1,11 @@
+stages:
+- name: Publish
+  steps:
+  - publishImageConfig:
+      dockerfilePath: ./Dockerfile
+      buildContext: .
+      tag: demandcluster/agilebot:0.1
+      pushRemote: true
+      registry: harbor.demandcluster.com
+timeout: 60
+notification: {}
