@@ -98,7 +98,7 @@ namespace AgileBot
             if(parameters.User == null)
             {
                //parameters.User = ctx.User.UserName;
-               ctx.Message.Author.Username
+               ctx.Message.Author.Username;
             }
             if(parameters.Status == null)
             {
