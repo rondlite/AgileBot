@@ -2,14 +2,14 @@
     "discord":
     {
         "bot_token": "%BOT_TOKEN%",
-        "command_prefix": "!",
+        "command_prefix": "agilebot",
         "arg_seperator_char": " ",
         "case_sensitive_commands": false,
         "log_not_found": false,
         "user_map":
         {
-            "bob": "Bob Barker",
-            "twi": "Twilight Sparkle",
+            "dlite": "Ron D. Lite",
+            "flechsig": "gflechsig",
             "steve": "Minecraft Steve"
         },
         "status_map":
@@ -18,7 +18,7 @@
             "inprogress": "In Progress",
             "inreview": "In Review",
             "review": "In Review",
-            "bug": "Open Bug"
+            "bug": "Open"
         }
     },
     "atlassian":
