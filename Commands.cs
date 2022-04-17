@@ -95,8 +95,7 @@ namespace AgileBot
         {
             var ctx = Context;
             await ctx.Channel.TriggerTypingAsync();
-            Console.WriteLine("Paremetersr...");
-            Console.WriteLine(parameters);
+
             if (parameters.User == null)
             {
                 parameters.User = ctx.User.Username;
@@ -113,7 +112,8 @@ namespace AgileBot
             }
             catch (Exception except)
             {
-                await ctx.Channel.SendMessageAsync($"Exception: {except.Message}");
+                await ctx.Channel.SendMessageAsync("Ron did not implement what you just said...");// $"Exception: {except.Message}");
+                Console.WriteLine($"Expection: {except.Message}");
                 return;
             }
             if (tasks.Count != 0)
@@ -215,9 +215,7 @@ namespace AgileBot
                 }
                 if (!string.IsNullOrEmpty(Status))
                 {
-                    Console.WriteLine("Status...");
                     var lower = Status.ToLower();
-                    Console.WriteLine(lower);
                     if (AgileBot.DiscordSettings.StatusMap.TryGetValue(lower, out var mappedStatus))
                     {
                         Status = mappedStatus;
