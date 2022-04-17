@@ -199,6 +199,8 @@ namespace AgileBot
             {
                 if (!string.IsNullOrEmpty(Jql))
                 {
+                    Console.WriteLine(Jql);
+                    Console.WriteLine("jql");
                     return Jql;
                 }
                 string newJQL = string.Empty;
@@ -230,11 +232,13 @@ namespace AgileBot
                 }
                 if (!string.IsNullOrEmpty(Type))
                 {
+                    Console.WriteLine(Type);
                     newJQL = JoinAnd(newJQL);
                     newJQL += $"type = \"{Type}\"";
                 }
                 if (!string.IsNullOrEmpty(OrderBy))
                 {
+                    Console.WriteLine(OrderBy);
                     newJQL += $" ORDER BY \"{OrderBy}\"";
                     if (!string.IsNullOrEmpty(Order))
                     {
