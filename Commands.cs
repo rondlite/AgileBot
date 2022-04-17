@@ -95,6 +95,8 @@ namespace AgileBot
         {
             var ctx = Context;
             await ctx.Channel.TriggerTypingAsync();
+            Console.WriteLine("Paremetersr...");
+            Console.WriteLine(parameters);
             if (parameters.User == null)
             {
                 parameters.User = ctx.User.Username;
@@ -203,8 +205,7 @@ namespace AgileBot
                 if (!string.IsNullOrEmpty(User))
                 {
                     var lower = User.ToLower();
-                    Console.WriteLine("User...");
-                    Console.WriteLine(lower);
+
                     if (AgileBot.DiscordSettings.UserMap.TryGetValue(lower, out var mappedUser))
                     {
                         User = mappedUser;
@@ -214,7 +215,9 @@ namespace AgileBot
                 }
                 if (!string.IsNullOrEmpty(Status))
                 {
+                    Console.WriteLine("Status...");
                     var lower = Status.ToLower();
+                    Console.WriteLine(lower);
                     if (AgileBot.DiscordSettings.StatusMap.TryGetValue(lower, out var mappedStatus))
                     {
                         Status = mappedStatus;
