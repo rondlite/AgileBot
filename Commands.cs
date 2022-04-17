@@ -36,7 +36,7 @@ namespace AgileBot
         [Command("Bugs"), Priority(2)]
         public async Task OnBugs(TaskParams parameters)
         {
-            if(parameters.User == null)
+            if (parameters.User == null)
             {
                 parameters.title = "Bugs!";
             }
@@ -45,10 +45,10 @@ namespace AgileBot
                 parameters.title = "Bugs for {0}";
             }
 
-            if(parameters.Status == null) parameters.Status = string.Empty;
+            if (parameters.Status == null) parameters.Status = string.Empty;
             parameters.PreJql = $"(status = \"{JiraStatus.OpenBug}\" OR status = \"{JiraStatus.InProgress}\")";
             parameters.Type = JiraIssueType.Bug;
-            if(parameters.User == null)
+            if (parameters.User == null)
             {
                 parameters.User = string.Empty;
             }
@@ -60,7 +60,7 @@ namespace AgileBot
             parameters = parameters ?? new TaskParams();
             parameters.title = "Bugs for {0}";
             parameters.Project = project;
-            if(parameters.Status == null) parameters.Status = string.Empty;
+            if (parameters.Status == null) parameters.Status = string.Empty;
             parameters.PreJql = $"(status = \"{JiraStatus.OpenBug}\" OR status = \"{JiraStatus.InProgress}\")";
             parameters.Type = JiraIssueType.Bug;
             await OnTasks(parameters);
@@ -95,11 +95,11 @@ namespace AgileBot
         {
             var ctx = Context;
             await ctx.Channel.TriggerTypingAsync();
-            if(parameters.User == null)
+            if (parameters.User == null)
             {
-               parameters.User = ctx.User.Username;
+                parameters.User = ctx.User.Username;
             }
-            if(parameters.Status == null)
+            if (parameters.Status == null)
             {
                 parameters.Status = JiraStatus.InProgress;
             }
@@ -109,12 +109,12 @@ namespace AgileBot
             {
                 tasks = await AgileBot.Atlassian.GetAllJiraIssuesForUser(jql, parameters.Max);
             }
-            catch(Exception except)
+            catch (Exception except)
             {
                 await ctx.Channel.SendMessageAsync($"Exception: {except.Message}");
                 return;
             }
-            if(tasks.Count != 0)
+            if (tasks.Count != 0)
             {
                 var iter = tasks.GetEnumerator();
                 iter.MoveNext();
@@ -123,16 +123,16 @@ namespace AgileBot
                 var linkName = $"**{key}**: {iter.Current.Summary}";
                 var user = iter.Current.AssigneeUser;
                 var msg = $"{GetHyperlink(linkName, AgileBot.Atlassian.GetURLForIssue(iter.Current.Key))}";
-                while(iter.MoveNext())
+                while (iter.MoveNext())
                 {
                     key = iter.Current.Key.ToString();
-                    linkName = $"**{key}**: { iter.Current.Summary}";
+                    linkName = $"**{key}**: {iter.Current.Summary}";
                     msg += $"\n{GetHyperlink(linkName, AgileBot.Atlassian.GetURLForIssue(iter.Current.Key))}";
                 }
                 var builder = new EmbedBuilder();
                 string avatarUrl = string.Empty;
                 string author = parameters.title;
-                if(user != null)
+                if (user != null)
                 {
                     avatarUrl = user.AvatarUrls.Large;
                     author = string.Format(parameters.title, user.DisplayName);
@@ -155,19 +155,19 @@ namespace AgileBot
             var ctx = Context;
             await ctx.Channel.TriggerTypingAsync();
             Issue? issue = await AgileBot.Atlassian.GetJiraTask(key);
-            if(issue == null)
+            if (issue == null)
             {
                 await ctx.Channel.SendMessageAsync($"Failed to find issue: {key}");
                 return;
             }
             var jiraStatus = await AgileBot.Atlassian.GetStatus(status);
-            if(issue == null)
+            if (issue == null)
             {
                 await ctx.Channel.SendMessageAsync($"Failed to find status: {status}");
                 return;
             }
             var embed = AgileBot.Atlassian.GetEmbedBuilderForJiraIssue(issue);
-            
+
             await issue.SetPropertyAsync("Status", JToken.FromObject(jiraStatus));
             await issue.SaveChangesAsync();
             embed.Title += $" -> {jiraStatus?.Name}";
@@ -195,22 +195,24 @@ namespace AgileBot
 
             public string ToJQL()
             {
-                if(!string.IsNullOrEmpty(Jql))
+                if (!string.IsNullOrEmpty(Jql))
                 {
                     return Jql;
                 }
                 string newJQL = string.Empty;
-                if(!string.IsNullOrEmpty(User))
+                if (!string.IsNullOrEmpty(User))
                 {
                     var lower = User.ToLower();
-                    if(AgileBot.DiscordSettings.UserMap.TryGetValue(lower, out var mappedUser))
+                    Console.WriteLine("User...");
+                    Console.WriteLine(lower);
+                    if (AgileBot.DiscordSettings.UserMap.TryGetValue(lower, out var mappedUser))
                     {
                         User = mappedUser;
                     }
                     newJQL = JoinAnd(PreJql);
                     newJQL += $"assignee = \"{User}\"";
                 }
-                if(!string.IsNullOrEmpty(Status))
+                if (!string.IsNullOrEmpty(Status))
                 {
                     var lower = Status.ToLower();
                     if (AgileBot.DiscordSettings.StatusMap.TryGetValue(lower, out var mappedStatus))
@@ -220,20 +222,20 @@ namespace AgileBot
                     newJQL = JoinAnd(newJQL);
                     newJQL += $"status = \"{Status}\"";
                 }
-                if(!string.IsNullOrEmpty(Project))
+                if (!string.IsNullOrEmpty(Project))
                 {
                     newJQL = JoinAnd(newJQL);
                     newJQL += $"project = \"{Project}\"";
                 }
-                if(!string.IsNullOrEmpty(Type))
+                if (!string.IsNullOrEmpty(Type))
                 {
                     newJQL = JoinAnd(newJQL);
                     newJQL += $"type = \"{Type}\"";
                 }
-                if(!string.IsNullOrEmpty(OrderBy))
+                if (!string.IsNullOrEmpty(OrderBy))
                 {
                     newJQL += $" ORDER BY \"{OrderBy}\"";
-                    if(!string.IsNullOrEmpty(Order))
+                    if (!string.IsNullOrEmpty(Order))
                     {
                         newJQL += $" {Order}";
                     }
@@ -243,7 +245,7 @@ namespace AgileBot
 
             string JoinAnd(string input)
             {
-                if(!string.IsNullOrEmpty(input))
+                if (!string.IsNullOrEmpty(input))
                 {
                     return input + " AND ";
                 }
